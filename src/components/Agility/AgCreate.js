@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 export class AgCreate extends Component {
@@ -10,7 +8,6 @@ export class AgCreate extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeSets = this.onChangeSets.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -18,7 +15,6 @@ export class AgCreate extends Component {
             description: '',
             sets: 0,
             duration: 0,
-            date: new Date(),
             // for later drop down user selection feature
             descriptionsArr: []
         }
@@ -63,11 +59,6 @@ export class AgCreate extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -85,9 +76,11 @@ export class AgCreate extends Component {
         axios.post('http://localhost:8000/Agility/add', AgExercise)
         .then(res => console.log(res.data));
 
+        window.location = ('/AgList');
+
 
         // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-        window.location = '/AgList';
+        
     }
     
 
@@ -115,13 +108,7 @@ export class AgCreate extends Component {
                               })
                           }
                   </select>
-                  {/* <input 
-                    type = "text"
-                    required
-                    className = "form-control"
-                    value = {this.state.description}
-                    onChange = {this.onChangeDescription}
-                    /> */}
+                
                  
               </div>
 
@@ -147,20 +134,12 @@ export class AgCreate extends Component {
                     />
               </div>
 
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
+
                   
                 <div className = "form-group">
                       <input 
                        type = "submit"
-                       value = "Create Exercise Log"
+                       value = "Add Exercise"
                        className = "btn btn-primary"
                        />
                 </div>

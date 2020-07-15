@@ -11,7 +11,6 @@ export class StrCreate extends Component {
         this.onChangeWeight = this.onChangeWeight.bind(this);
         this.onChangeSets = this.onChangeSets.bind(this);
         this.onChangeReps = this.onChangeReps.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -20,7 +19,6 @@ export class StrCreate extends Component {
             weight: 0,
             sets: 0,
             reps: 0,
-            date: new Date(),
             // for later drop down user selection feature
             descriptionsArr: [],
             rpeArr:[]
@@ -45,13 +43,13 @@ export class StrCreate extends Component {
         axios.get('http://localhost:8000/Num')
         .then(response => {
             this.setState({
-                rpeArr:response.data.map(s => s.RPE)
-
+                rpeArr:response.data.map(s => s.RPE),
+                weight: response.data[0].RPE
             })
         })
     }
 
-    comp
+
 
     onChangeDescription(e) {
         this.setState({
@@ -78,11 +76,7 @@ export class StrCreate extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
+
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -93,7 +87,6 @@ export class StrCreate extends Component {
             weight: this.state.weight,
             sets: this.state.sets,
             reps:this.state.reps,
-            date: this.state.date
         }
 
         console.log(StrExercise);
@@ -101,7 +94,9 @@ export class StrCreate extends Component {
         axios.post('http://localhost:8000/Strength/add', StrExercise)
         .then(res => console.log(res.data));
 
-        window.location = '/StrList';
+        window.location = "/StrList";
+
+    
     }
     
 
@@ -172,15 +167,7 @@ export class StrCreate extends Component {
                     />
               </div>
 
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
+        
                   
                 <div className = "form-group">
                       <input 

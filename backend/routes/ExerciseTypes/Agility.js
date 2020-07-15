@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let AgilityExercise = require('../../models/Agility.model');
+const auth = require('../../middleware/auth')
 
 router.route('/').get((req,res) => {
     AgilityExercise.find()
@@ -7,17 +8,14 @@ router.route('/').get((req,res) => {
     .catch(err => res.status(400).json('Error:' + err));
 });
 
-router.route('/add').post((req,res) => {
+router.route('/add').post(auth, (req,res) => {
     const description = req.body.description;
     const sets = Number(req.body.sets);
     const duration = Number(req.body.duration);
-    const date = Date.parse(req.body.date);
-
     const newAgilityExercise = new AgilityExercise({
         description,
         sets,
-        duration,
-        date
+        duration
     });
 
     newAgilityExercise.save()
@@ -45,7 +43,6 @@ router.route('/update/:id').post((req,res) => {
         exercise.description = req.body.description;
         exercise.sets = Number(req.body.sets);
         exercise.duration = Number(req.body.duration);
-        exercise.date = Date.parse(req.body.date);
 
         exercise.save()
         .then(()=> res.json('The exercise has been updated bro :)'))

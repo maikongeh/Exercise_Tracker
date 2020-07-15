@@ -32,6 +32,12 @@ const StrTypeRouter = require('./routes/Descriptions/StrengthDes');
 const NumRouter = require('./routes/Numbers/OneToTen');
 const SportTypeRouter = require('./routes/SportTypes/SportName');
 const AgWorkoutRouter = require('./routes/WokoutTypes/Agility');
+const StrWorkoutRouter = require('./routes/WokoutTypes/Strength');
+const EnWorkoutRouter = require('./routes/WokoutTypes/Endurance');
+const ExWorkoutRouter = require('./routes/WokoutTypes/Explosive');
+const UserRouter = require('./routes/Users/users');
+const AuthRouter = require('./routes/auth');
+const DifficultyRouter = require('./routes/difficulty')
 
 
 
@@ -46,6 +52,12 @@ app.use('/StrType', StrTypeRouter);
 app.use('/Num', NumRouter);
 app.use('/SportType', SportTypeRouter);
 app.use('/AgWorkout', AgWorkoutRouter);
+app.use('/StrWorkout', StrWorkoutRouter);
+app.use('/EnWorkout', EnWorkoutRouter);
+app.use('/ExWorkout', ExWorkoutRouter);
+app.use('/user', UserRouter);
+app.use('/auth', AuthRouter);
+app.use('/difficulty', DifficultyRouter);
 
 app.listen(port, ()=> {
     console.log('Server is running on port: ' + port);

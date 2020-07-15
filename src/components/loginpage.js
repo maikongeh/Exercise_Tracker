@@ -46,8 +46,13 @@ export class loginpage extends Component {
           </Col>
           <Button>
               
-              <Link to ="/HomePage"> Login </Link>
+              <Link to ="/HomePage" style={{ color: '#FFF' }}> Login </Link>
 
+          </Button>
+          <br/>
+          <br/>
+          <Button>
+            <Link to ="/Registration" style={{ color: '#FFF' }}> Create new account</Link>
           </Button>
         </Form>
       </Container>

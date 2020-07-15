@@ -20,6 +20,7 @@ import ListOfEnduranceExercises from './components/ListAndLinks/Endurance';
 import ListOfExplosiveExercises from './components/ListAndLinks/Explosive';
 import loginpage from './components/loginpage';
 import HomePage from './components/HomePage';
+import registration from './components/registration';
 
 
 
@@ -51,6 +52,7 @@ function App() {
       <Route path = "/AllEx" component = {ListOfExplosiveExercises}/>
       <Route path = "/loginpage" component = {loginpage}/>
       <Route path = "/Homepage" component = {HomePage}/>
+      <Route path = "/registration" component = {registration}/>
 
       
 

@@ -14,9 +14,28 @@ export class Navbar extends Component {
             <Link to ="/HomePage" className = " navbar-brand"> ExerciseTracker</Link>
             <div className = "collapse navbar-collapse">
             <ul className = "navbar-nav mr-auto">
+                <li classaName = "navbar-item">
+                    <UncontrolledDropdown nav in Navbar>
+                        <DropdownToggle nav caret>My Workouts</DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem>
+                                    Agility
+                                </DropdownItem>
+                                <DropdownItem>
+                                    Endurance
+                                </DropdownItem>
+                                <DropdownItem>
+                                    Explosive
+                                </DropdownItem>
+                                <DropdownItem>
+                                    Strength
+                                </DropdownItem>
+                            </DropdownMenu>
+                    </UncontrolledDropdown>
+                </li>
                 <li className = "navbar-item">
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret>Exercise Log</DropdownToggle>
+                        <DropdownToggle nav caret>Create Workout</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem>
                                     <Link to = '/AgList'>Agility</Link>
@@ -37,7 +56,7 @@ export class Navbar extends Component {
                             </DropdownMenu>
                     </UncontrolledDropdown>
                 </li>
-                <li className = "navbar-item">
+                {/* <li className = "navbar-item">
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>Create Exercise</DropdownToggle>
                             <DropdownMenu right>
@@ -59,10 +78,11 @@ export class Navbar extends Component {
                                 
                             </DropdownMenu>
                     </UncontrolledDropdown>
-                </li>
+                </li> */}
+           
                 <li className = 'navbar-item'>
                 <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret>Exercise List</DropdownToggle>
+                        <DropdownToggle nav caret>View Exercises</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem>
                                     <Link to = '/AllAg'>Agility</Link>

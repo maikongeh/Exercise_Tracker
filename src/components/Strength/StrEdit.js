@@ -11,15 +11,13 @@ export class ExEdit extends Component {
         this.onChangeWeight = this.onChangeWeight.bind(this);
         this.onChangeSets = this.onChangeSets.bind(this);
         this.onChangeReps = this.onChangeReps.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             description: '',
-            Weight: 0,
-            Sets: 0,
-            Reps: 0,
-            date: new Date(),
+            weight: 0,
+            sets: 0,
+            reps: 0,
             // for later drop down user selection feature
             descriptionsArr: [],
             rpeArr: []
@@ -35,8 +33,6 @@ export class ExEdit extends Component {
                 weight: response.data.weight,
                 sets: response.data.sets,
                 reps: response.data.reps,
-                duration: response.data.duration,
-                date: new Date(response.data.date)
                 })
             })
             .catch(function(error) {
@@ -60,7 +56,9 @@ export class ExEdit extends Component {
         axios.get('http://localhost:8000/Num')
         .then(response => {
             this.setState({
-                rpeArr:response.data.map(s => s.RPE)
+                rpeArr:response.data.map(s => s.RPE),
+
+                weight: response.data[0].RPE
 
             })
         })
@@ -91,11 +89,6 @@ export class ExEdit extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -106,8 +99,7 @@ export class ExEdit extends Component {
             description: this.state.description,
             weight: this.state.weight,
             sets: this.state.sets,
-            reps: this.state.reps,
-            date: this.state.date
+            reps: this.state.reps
         }
 
         console.log(exercise);
@@ -184,15 +176,7 @@ export class ExEdit extends Component {
                     />
               </div>
 
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
+        
                   
                 <div className = "form-group">
                       <input 

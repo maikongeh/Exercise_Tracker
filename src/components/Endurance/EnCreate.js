@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 export class EnCreate extends Component {
@@ -9,14 +7,13 @@ export class EnCreate extends Component {
 
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             
             description: '',
             duration: 0,
-            date: new Date(),
+        
             // for later drop down user selection feature
             descriptionsArr: []
         }
@@ -51,11 +48,6 @@ export class EnCreate extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -63,8 +55,7 @@ export class EnCreate extends Component {
 
         const EnExercise = {
             description: this.state.description,
-            duration: this.state.duration,
-            date: this.state.date
+            duration: this.state.duration
         }
 
         console.log(EnExercise);
@@ -112,16 +103,7 @@ export class EnCreate extends Component {
                     />
               </div>
 
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
-                  
+            
                 <div className = "form-group">
                       <input 
                        type = "submit"

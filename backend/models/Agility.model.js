@@ -18,10 +18,6 @@ const AgilitySchema = new Schema({
         required: true,
         min: 1
     },
-    date: {
-        type: Date,
-        required: true
-    }
     },{
     timestamps: true,
     });

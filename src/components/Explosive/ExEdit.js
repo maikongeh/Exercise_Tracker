@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 export class ExEdit extends Component {
@@ -10,14 +8,12 @@ export class ExEdit extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeSets = this.onChangeSets.bind(this);
         this.onChangeReps = this.onChangeReps.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             description: '',
             Sets: 0,
             Reps: 0,
-            date: new Date(),
             // for later drop down user selection feature
             descriptionsArr: []
         }
@@ -31,8 +27,7 @@ export class ExEdit extends Component {
                 description: response.data.description,
                 sets: response.data.sets,
                 reps: response.data.reps,
-                duration: response.data.duration,
-                date: new Date(response.data.date)
+                duration: response.data.duration
                 })
             })
             .catch(function(error) {
@@ -73,12 +68,6 @@ export class ExEdit extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
-
     onSubmit(e) {
         //stops it from doing the normal submit functionality
         e.preventDefault();
@@ -87,8 +76,7 @@ export class ExEdit extends Component {
             
             description: this.state.description,
             sets: this.state.sets,
-            reps: this.state.reps,
-            date: this.state.date
+            reps: this.state.reps
         }
 
         console.log(exercise);
@@ -145,17 +133,7 @@ export class ExEdit extends Component {
                     onChange = {this.onChangeReps}
                     />
               </div>
-
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
-                  
+                
                 <div className = "form-group">
                       <input 
                        type = "submit"

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 export class ExCreate extends Component {
@@ -10,7 +8,6 @@ export class ExCreate extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeSets = this.onChangeSets.bind(this);
         this.onChangeReps = this.onChangeReps.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -18,7 +15,6 @@ export class ExCreate extends Component {
             description: '',
             sets: 0,
             reps: 0,
-            date: new Date(),
             // for later drop down user selection feature
             descriptionsArr: []
         }
@@ -60,11 +56,6 @@ export class ExCreate extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -73,8 +64,7 @@ export class ExCreate extends Component {
         const ExExercise = {
             description: this.state.description,
             sets: this.state.sets,
-            reps: this.state.reps,
-            date: this.state.date
+            reps: this.state.reps
         }
 
         console.log(ExExercise);
@@ -132,16 +122,6 @@ export class ExCreate extends Component {
                     onChange = {this.onChangeReps}
                     />
               </div>
-
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
                   
                 <div className = "form-group">
                       <input 

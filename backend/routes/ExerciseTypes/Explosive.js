@@ -11,13 +11,11 @@ router.route('/add').post((req,res) => {
     const description = req.body.description;
     const sets = Number(req.body.sets);
     const reps = Number(req.body.reps);
-    const date = Date.parse(req.body.date);
 
     const newExplosiveExercise = new ExplosiveExercise({
         description,
         sets,
-        reps,
-        date
+        reps
     });
 
     newExplosiveExercise.save()
@@ -45,7 +43,6 @@ router.route('/update/:id').post((req,res) => {
         exercise.description = req.body.description;
         exercise.sets = Number(req.body.sets);
         exercise.reps = Number(req.body.reps);
-        exercise.date = Date.parse(req.body.date);
 
         exercise.save()
         .then(()=> res.json('The exercise has been updated bro :)'))

@@ -10,14 +10,12 @@ export class AgEdit extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeSets= this.onChangeSets.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             description: '',
             sets: 0,
             duration: 0,
-            date: new Date(),
             // for later drop down user selection feature
             descriptionsArr: []
         }
@@ -32,7 +30,6 @@ export class AgEdit extends Component {
                 sets: response.data.sets,
 
                 duration: response.data.duration,
-                date: new Date(response.data.date)
                 })
             })
             .catch(function(error) {
@@ -73,11 +70,6 @@ export class AgEdit extends Component {
         });
     }
 
-    onChangeDate(date) {
-        this.setState({
-            date: date
-        });
-    }
 
     onSubmit(e) {
         //stops it from doing the normal submit functionality
@@ -87,8 +79,7 @@ export class AgEdit extends Component {
             
             description: this.state.description,
             sets: this.state.sets,
-            duration: this.state.duration,
-            date: this.state.date
+            duration: this.state.duration
         }
 
         console.log(exercise);
@@ -121,13 +112,6 @@ export class AgEdit extends Component {
                               })
                           }
                   </select>
-                  {/* <input 
-                    type = "text"
-                    required
-                    className = "form-control"
-                    value = {this.state.description}
-                    onChange = {this.onChangeDescription}
-                    /> */}
               </div>
 
               <div className = "form-group">
@@ -151,16 +135,6 @@ export class AgEdit extends Component {
                     onChange = {this.onChangeDuration}
                     />
               </div>
-
-              <div className = "form-group">
-                  <label>Date: </label>
-                  <div>
-                      <DatePicker
-                        selected = {this.state.date}
-                        onChange = {this.onChangeDate}
-                      />
-                  </div>
-                </div>
                   
                 <div className = "form-group">
                       <input 

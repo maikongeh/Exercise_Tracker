@@ -10,12 +10,10 @@ router.route('/').get((req,res) => {
 router.route('/add').post((req,res) => {
     const description = req.body.description;
     const duration = Number(req.body.duration);
-    const date = Date.parse(req.body.date);
 
     const newEndurance = new EnduranceExercise({
         description,
-        duration,
-        date
+        duration
     });
 
     newEndurance.save()
@@ -42,7 +40,6 @@ router.route('/update/:id').post((req,res) => {
     .then(exercise => {
         exercise.description = req.body.description;
         exercise.duration = Number(req.body.duration);
-        exercise.date = Date.parse(req.body.date);
 
         exercise.save()
         .then(()=> res.json('The exercise has been updated bro :)'))
