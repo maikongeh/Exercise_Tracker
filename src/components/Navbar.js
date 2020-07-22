@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {UncontrolledDropdown,
         DropdownToggle,
         DropdownMenu,
-        DropdownItem}
+        DropdownItem,
+        NavItem}
 
         from 'reactstrap';
+import Register from './registration';
+import RegisterModal from './auth/RegisterModal';
 
 export class Navbar extends Component {
   render() {
@@ -14,21 +17,21 @@ export class Navbar extends Component {
             <Link to ="/HomePage" className = " navbar-brand"> ExerciseTracker</Link>
             <div className = "collapse navbar-collapse">
             <ul className = "navbar-nav mr-auto">
-                <li classaName = "navbar-item">
-                    <UncontrolledDropdown nav in Navbar>
+                <li className = "navbar-item">
+                    <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>My Workouts</DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem>
-                                    Agility
+                                    <Link to = '/AgWorkout'>Agility</Link>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    Endurance
+                                <Link to = '/EnWorkout'>Endurance</Link>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    Explosive
+                                <Link to = '/ExWorkout'>Explosive</Link>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    Strength
+                                <Link to = '/StrWorkout'>Strength</Link>
                                 </DropdownItem>
                             </DropdownMenu>
                     </UncontrolledDropdown>
@@ -103,13 +106,48 @@ export class Navbar extends Component {
                             </DropdownMenu>
                     </UncontrolledDropdown>
                 </li>
-                <li className = "navbar-item">
+            </ul>
+
+            {/* <li className = "navbar-item">
 
                 <Link to = '/loginpage' className = "nav-link">Logout</Link>
 
 
-                </li>
-            </ul>
+                
+                </li> */}
+
+                    <ul className = "navbar-nav ml-auto">
+                        <li className = "navbar-item">
+                        <NavItem> 
+                            <Link to = '/login'>Login    |   </Link>  
+                                             
+                        </NavItem>
+                    
+                        </li>
+                        <br/>
+
+                        <li className = "navbar-item">
+                            <NavItem> 
+                                <Link to = '/registration'>   Register</Link>
+                            </NavItem>
+                        </li>
+
+                    </ul>
+                 {/* <nav className = "navbar-nav ml-auto">
+                    
+                    <NavItem> 
+                        <Link to = '/login'>login</Link>
+                    
+                    </NavItem>
+    
+                    </nav>
+                <nav className = "navbar-nav ml-auto">
+                    
+                <NavItem> 
+                    <Link to = '/registration'>Register</Link>
+                </NavItem>
+
+                </nav> */}
             </div>
         </nav>
     );

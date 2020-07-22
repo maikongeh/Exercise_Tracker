@@ -43,6 +43,7 @@ router.route('/add').post((req,res) => {
                                 token,
                                 user : {
                                     id: user.id,
+                                    role: user.role,
                                     name: user.name,
                                     email: user.email
                                 }

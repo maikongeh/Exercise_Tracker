@@ -195,7 +195,7 @@ export class EnList extends Component {
                           {
                               this.state.difficultyArr.map(function(diff) {
                                   return <option
-                                    key = {diff}x
+                                    key = {diff}
                                     value = {diff}> {diff} 
                                     </option>;
                               })

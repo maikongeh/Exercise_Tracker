@@ -14,19 +14,20 @@ router.route('/').get((req,res) => {
 });
 
 router.route('/add').post((req,res) => {
+    const role = req.body.role;
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
  
 
-    if(!name || !email || !password) {
+    if(!name || !email || !password || !role) {
         return res.status(400).json({ msg: 'Please enter all fields'});
     }
 
     users.findOne({email})
         .then(user => {
             if(user) return res.status(400).json({ msg : 'User already exists'}); 
-            const newUser = new users({name, email, password});
+            const newUser = new users({role, name, email, password});
             //Create salt and hash
             bcrypt.genSalt(5,(err, salt) => {
                 if(err) throw err;
@@ -46,6 +47,7 @@ router.route('/add').post((req,res) => {
                                         token,
                                         user : {
                                             id: user.id,
+                                            role: user.role,
                                             name: user.name,
                                             email: user.email
                                         }

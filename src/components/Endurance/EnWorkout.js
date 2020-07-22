@@ -20,7 +20,7 @@ const Workout = props => (
   </tr>
 
 )
-export class AgWorkout extends Component {
+export class EnWorkout extends Component {
 
   
 
@@ -43,7 +43,7 @@ export class AgWorkout extends Component {
 
 
   componentDidMount() {
-    axios.get('http://localhost:8000/AgWorkout')
+    axios.get('http://localhost:8000/EnWorkout')
       .then(res => {
         this.setState({
           AllworkoutArr: res.data,
@@ -101,4 +101,4 @@ export class AgWorkout extends Component {
   }
 }
 
-export default AgWorkout
+export default EnWorkout

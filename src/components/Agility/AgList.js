@@ -54,7 +54,7 @@ export class AgList extends Component {
   }
 
   disabledCheckBox() {
-    console.log(this.state.CheckedNumber)
+    
     if(this.state.CheckedNumber> 3) {
       return true
   } else return false
@@ -206,7 +206,7 @@ undo() {
                           {
                               this.state.difficultyArr.map(function(diff) {
                                   return <option
-                                    key = {diff}x
+                                    key = {diff}
                                     value = {diff}> {diff} 
                                     </option>;
                               })

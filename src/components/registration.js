@@ -1,19 +1,35 @@
+// currently not in use
 import React, { Component } from 'react'
+
 import axios from 'axios';
+
+
 
 export class registration extends Component {
     constructor(props) {
         super(props);
+        this.onChangeRole = this.onChangeRole.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);      
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         
-        this.state = {            
+        this.state = {  
+            role: '',
+            roleArr : ['Coach', 'Athlete'],          
             name: '',
             email: '',
-            password: ''
+            password: '',
+            emailArr: [],
+            msg: null
+
         }
+    }
+
+    onChangeRole(e) {
+        this.setState({
+            role :e.target.value
+        });
     }
 
     onChangeName(e) {
@@ -34,30 +50,70 @@ export class registration extends Component {
         });
     }
 
+    componentDidMount(){
+        this.setState({
+            role: 'Coach'
+        })
+          
+        
+    }
+ 
+
     onSubmit(e) {
         //stops it from doing the normal submit functionality
         e.preventDefault();
 
         const NewUser = {
+            role: this.state.role,
             name: this.state.name,
             email: this.state.email,
             password: this.state.password
         }
-        console.log(NewUser);
+        
+        // const sameEmail = this.emailArr.map(email => email === NewUser.email);
+        
+
         axios.post('http://localhost:8000/user/add', NewUser)
         .then(res => console.log(res.data));
 
-        // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-        window.location = '/loginpage';
-    }
+        //Need a basic way to notify if client if is success or error
+
     
 
+        
+
+        // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
+        // window.location = '/loginpage';
+    }
+    
   render() {
     return (
       <div>
           
-          <h3>Create New Account</h3>
+          <h3>Registration</h3>
+          <br/>
+          
           <form onSubmit = {this.onSubmit}>
+              
+
+                    <div className = "form-group">
+                    <label>Role </label>
+                    <select ref = "userInput"
+                      required
+                      className = "form-control"
+                      value = {this.state.role}
+                      onChange = {this.onChangeRole}>
+                          
+                          {
+                              this.state.roleArr.map(function(role) {
+                                  return <option
+                                    key = {role}
+                                    value = {role}> {role} 
+                                    </option>;
+                              })
+                          }
+                  </select>        
+              </div>
 
               <div className = "form-group">
                   <label>Name</label>
@@ -106,7 +162,10 @@ export class registration extends Component {
                        className = "btn btn-primary"
                        />
                 </div>
+
+                
             </form>
+            
        </div>
     )
   }
