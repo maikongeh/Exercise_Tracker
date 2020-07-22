@@ -1,119 +1,104 @@
 // currently not in use
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-import axios from 'axios';
-
-
+import { login } from "../actions/authActions";
 
 export class loginpage extends Component {
-    constructor(props) {
-        super(props);
-        this.onChangeEmail = this.onChangeEmail.bind(this);      
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        
-        this.state = {  
-           
-            email: '',
-            password: '',
+  constructor(props) {
+    super(props);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-          
-            msg: null
+    this.state = {
+      email: "",
+      password: "",
 
-        }
-    }
+      msg: null,
+    };
+  }
 
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value,
+    });
+  }
 
+  onChangePassword(e) {
+    this.setState({
+      password: e.target.value,
+    });
+  }
 
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value
-        });
-    }
+  onSubmit(e) {
+    //stops it from doing the normal submit functionality
+    e.preventDefault();
 
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value
-        });
-    }
+    const NewAuth = {
+      email: this.state.email,
+      password: this.state.password,
+    };
 
-  
+    // const sameEmail = this.emailArr.map(email => email === NewUser.email);
 
-    onSubmit(e) {
-        //stops it from doing the normal submit functionality
-        e.preventDefault();
+    this.props.login(NewAuth);
 
-        const NewAuth = {
-            email: this.state.email,
-            password: this.state.password
-        }
-        
-        // const sameEmail = this.emailArr.map(email => email === NewUser.email);
-        
+    //Need a basic way to notify if client if is success or error
 
-        axios.post('http://localhost:8000/auth/add', NewAuth)
-        .then(res => console.log(res.data));
+    // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
+    // window.location = '/loginpage';
+  }
 
-        //Need a basic way to notify if client if is success or error
-
-    
-
-        
-
-        // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-        // window.location = '/loginpage';
-    }
-    
   render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div>
-          
-          <h3>Sign in</h3>
-          <br/>
-          
-          <form onSubmit = {this.onSubmit}>            
+        <h3>Sign in</h3>
+        <br />
 
-              <div className = "form-group">
-                  <label>Email</label>
-                  <input 
-                    type = "email"
-                    name = "email"
-                    placeholder = "myemail@email.com"
-                    required
-                    className = "form-control"
-                    value = {this.state.email}
-                    onChange = {this.onChangeEmail}
-                    />
-              </div>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="myemail@email.com"
+              required
+              className="form-control"
+              value={this.state.email}
+              onChange={this.onChangeEmail}
+            />
+          </div>
 
-              <div className = "form-group">
-                  <label>Password</label>
-                  <input 
-                    type = "password"
-                    name = "password"
-                    placeholder = "********"
-                    required
-                    className = "form-control"
-                    value = {this.state.password}
-                    onChange = {this.onChangePassword}
-                    />
-                  
-                </div>
-                  
-                <div className = "form-group">
-                      <input 
-                       type = "submit"
-                       value = "Login"
-                       className = "btn btn-primary"
-                       />
-                </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="********"
+              required
+              className="form-control"
+              value={this.state.password}
+              onChange={this.onChangePassword}
+            />
+          </div>
 
-                
-            </form>
-            
-       </div>
-    )
+          <div className="form-group">
+            <input type="submit" value="Login" className="btn btn-primary" />
+          </div>
+        </form>
+      </div>
+    );
   }
 }
 
-export default loginpage
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(loginpage);
