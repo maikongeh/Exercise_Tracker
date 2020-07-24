@@ -84,6 +84,7 @@ export class StrCreate extends Component {
         e.preventDefault();
 
         const StrExercise = {
+            email: this.props.email,
             description: this.state.description,  
             weight: this.state.weight,        
             sets: this.state.sets,
@@ -202,6 +203,7 @@ export class StrCreate extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
 export default connect(mapStateToProps, {})(StrCreate);

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const StrengthSchema = new Schema({
+    email: {type:String, required: true},
 
     description: {type: String,required: true},
     weight: {type: Number, required: true, min: 1},
@@ -14,6 +15,7 @@ const StrengthSchema = new Schema({
 
 
 const StrWorkoutSchema = new Schema({
+    email: {type:String, required: true},
 
     difficulty: {type: String, required: true},
     exercise1: {type: StrengthSchema, required: true},

@@ -128,6 +128,7 @@ export class AgView extends Component {
 }
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    role: state.auth.user === null ? "Athlete" : state.auth.user.role,
   });
   
 export default connect(mapStateToProps, {})(AgView);

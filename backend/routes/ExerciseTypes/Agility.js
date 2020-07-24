@@ -12,10 +12,12 @@ router.route('/').get((req,res) => {
 
 //To add auth just put auth before (req,res) so post(auth, (req,res) => )
 router.route('/add').post((req,res) => {
+    const email = req.body.email;
     const description = req.body.description;
     const sets = Number(req.body.sets);
     const duration = Number(req.body.duration);
     const newAgilityExercise = new AgilityExercise({
+        email,
         description,
         sets,
         duration
@@ -43,6 +45,7 @@ router.route('/:id').delete((req,res) => {
 router.route('/update/:id').post((req,res) => {
     AgilityExercise.findById(req.params.id)
     .then(exercise => {
+        exercise.email = req.body.email;
         exercise.description = req.body.description;
         exercise.sets = Number(req.body.sets);
         exercise.duration = Number(req.body.duration);

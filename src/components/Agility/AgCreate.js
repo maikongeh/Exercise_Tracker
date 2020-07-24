@@ -69,6 +69,7 @@ export class AgCreate extends Component {
         e.preventDefault();
 
         const AgExercise = {
+            email: this.props.email,
             description: this.state.description,
             sets: this.state.sets,
             duration: this.state.duration
@@ -172,6 +173,8 @@ export class AgCreate extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
+    
   });
   
   export default connect(mapStateToProps, {})(AgCreate);

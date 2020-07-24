@@ -64,6 +64,7 @@ export class ExCreate extends Component {
         e.preventDefault();
 
         const ExExercise = {
+            email: this.props.email,
             description: this.state.description,          
             sets: this.state.sets,
             reps: this.state.reps
@@ -159,6 +160,7 @@ export class ExCreate extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
 export default connect(mapStateToProps, {})(ExCreate);

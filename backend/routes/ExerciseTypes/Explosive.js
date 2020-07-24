@@ -8,11 +8,13 @@ router.route('/').get((req,res) => {
 });
 
 router.route('/add').post((req,res) => {
+    const email = req.body.email;
     const description = req.body.description;
     const sets = Number(req.body.sets);
     const reps = Number(req.body.reps);
 
     const newExplosiveExercise = new ExplosiveExercise({
+        email,
         description,
         sets,
         reps
@@ -40,6 +42,7 @@ router.route('/:id').delete((req,res) => {
 router.route('/update/:id').post((req,res) => {
     ExplosiveExercise.findById(req.params.id)
     .then(exercise => {
+        exercise.email = req.body.email;
         exercise.description = req.body.description;
         exercise.sets = Number(req.body.sets);
         exercise.reps = Number(req.body.reps);

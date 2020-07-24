@@ -56,6 +56,7 @@ export class EnCreate extends Component {
         e.preventDefault();
 
         const EnExercise = {
+            email: this.props.email,
             description: this.state.description,          
             duration: this.state.duration,
         }
@@ -140,6 +141,7 @@ export class EnCreate extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
   export default connect(mapStateToProps, {})(EnCreate);

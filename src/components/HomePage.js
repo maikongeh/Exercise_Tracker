@@ -20,6 +20,7 @@ export class HomePage extends Component {
             
           ) : (
             <div>
+              <h1>Please Login</h1>
             </div>
           )
             

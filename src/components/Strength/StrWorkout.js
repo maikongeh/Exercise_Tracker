@@ -37,18 +37,32 @@ export class StrWorkout extends Component {
 
 
   componentDidMount() {
-    axios.get('http://localhost:8000/StrWorkout')
+    if(this.props.role === 'Coach') {
+      console.log(this.props.name);
+      axios.get('http://localhost:8000/StrWorkout')
+      .then(res => {
+        this.setState({
+          AllworkoutArr: res.data.filter(workout=> workout.email === this.props.email),
+          BworkoutArr: res.data.filter( workout => workout.difficulty === 'Beginner'),
+          IworkoutArr: res.data.filter( workout => workout.difficulty === 'Intermediate'),
+          EworkoutArr: res.data.filter(workout => workout.difficulty === 'Elite'),
+        })
+      }).then(res => {
+        console.log(this.state);
+      })
+    } else {
+      axios.get('http://localhost:8000/StrWorkout/ath')
       .then(res => {
         this.setState({
           AllworkoutArr: res.data,
           BworkoutArr: res.data.filter( workout => workout.difficulty === 'Beginner'),
           IworkoutArr: res.data.filter( workout => workout.difficulty === 'Intermediate'),
           EworkoutArr: res.data.filter(workout => workout.difficulty === 'Elite'),
-
         })
       }).then(res => {
         console.log(this.state);
       })
+    }
   }
 
   workoutList() {
@@ -95,6 +109,9 @@ export class StrWorkout extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    role: state.auth.user === null ? "Athlete" : state.auth.user.role,
+  name: state.auth.user === null ? 'name' : state.auth.user.name,
+  email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
   export default connect(mapStateToProps, {})(StrWorkout);

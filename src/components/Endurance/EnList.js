@@ -41,10 +41,10 @@ export class EnList extends Component {
       difficultyArr: [],
       CheckedNumber : 0,
       exercises: [],
-      exercise1: {_id: 'nullID', value: null},
-      exercise2: {_id: 'nullID', value: null},
-      exercise3: {_id: 'nullID', value: null},
-      exercise4: {_id: 'nullID', value: null},
+      exercise1: {_id: 'nullID', value: null, email: null},
+      exercise2: {_id: 'nullID', value: null, email: null},
+      exercise3: {_id: 'nullID', value: null, email: null},
+      exercise4: {_id: 'nullID', value: null, email: null},
       TooManyExerciseWarning : 'Too Many'
     };
   }
@@ -53,7 +53,7 @@ export class EnList extends Component {
     axios.get('http://localhost:8000/Endurance/')
       .then(response => {
         this.setState({
-          exercises: response.data
+          exercises: response.data.filter(exercise => exercise.email === this.props.email)
           })
         }).catch(err => {
           console.log(err);
@@ -159,6 +159,7 @@ export class EnList extends Component {
     e.preventDefault();
 
     const EnWorkout = {
+        email: this.props.email,
         difficulty: this.state.difficulty,
         exercise1: this.state.exercise1,
         exercise2: this.state.exercise2,
@@ -279,6 +280,7 @@ export class EnList extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  email: state.auth.user === null ? 'email' : state.auth.user.email
 });
 
 export default connect(mapStateToProps, {})(EnList);

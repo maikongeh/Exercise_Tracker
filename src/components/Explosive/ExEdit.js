@@ -25,7 +25,7 @@ export class ExEdit extends Component {
         axios.get('http://localhost:8000/Explosive/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                
+                email: this.props.email,
                 description: response.data.description,
                 sets: response.data.sets,
                 reps: response.data.reps,
@@ -75,7 +75,7 @@ export class ExEdit extends Component {
         e.preventDefault();
 
         const exercise = {
-            
+            email: this.props.email,
             description: this.state.description,
             sets: this.state.sets,
             reps: this.state.reps
@@ -167,6 +167,7 @@ export class ExEdit extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
 export default connect(mapStateToProps, {})(ExEdit);

@@ -1,25 +1,78 @@
-import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import React, { Fragment, Component } from 'react'
+import { ListGroup} from 'reactstrap';
+import { Collapse } from 'antd';
+import {connect} from 'react-redux'
+const { Panel } = Collapse;
 
-const Strength = (props) => {
-  return (
+export class Strength extends Component {
+  render() {
 
+    const text = `
+    A dog is a type of domesticated animal.
+    Known for its loyalty and faithfulness,
+    it can be found as a welcome guest in many households across the world.
+  `;
+
+    return (
+      <div>
+          {this.props.isAuthenticated? (
+              <div>
+            <Fragment>
     <ListGroup>
-        <h2> List of Strength Exercises</h2>
-        <br/>
-        <ListGroupItem tag="a" href="#">Barbell squat</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Bench Press</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Bicep curls</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Deadlift</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Romanian Deadlift</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Skullcrusher</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Tricep extension</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Weighted Dips</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Weighted lunges</ListGroupItem>
-        <ListGroupItem tag="a" href="#">Weighted split squat</ListGroupItem>
-      </ListGroup>
-  );
+      <h2> List of Strength Exercises</h2>
+    </ListGroup>
+      
+    <Collapse accordion>
+      
+    <Panel header="Barbell squat" key="1">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Bench Press" key="2">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Bicep curls" key="3">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Deadlift" key="4">
+      <p>{text}</p>
+    </Panel>    
+    <Panel header="Romanian Deadlift" key="5">
+      <p>{text}</p>
+    </Panel>   
+    <Panel header="Skullcrusher" key="6">
+      <p>{text}</p>
+    </Panel>   
+    <Panel header="Tricep extension" key="7">
+      <p>{text}</p>
+    </Panel>   
+    <Panel header="Weighted Dips" key="8">
+      <p>{text}</p>
+    </Panel>   
+    <Panel header="Weighted lunges" key="9">
+      <p>{text}</p>
+    </Panel>   
+    <Panel header="Weighted split squat" key="10">
+      <p>{text}</p>
+    </Panel>  
+  </Collapse>
+  </Fragment>
+            </div>
+          ) : (
+              <div>
+                  </div>
+          )}
+        
+      </div>
+    )
+  }
 }
 
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
+    
+  });
+  
+  export default connect(mapStateToProps, {})(Strength);
+  
 
-export default Strength

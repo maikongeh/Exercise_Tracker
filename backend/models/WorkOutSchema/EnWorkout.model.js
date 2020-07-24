@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const EnduranceSchema = new Schema({
+    email: {type:String, required: true},
 
     description: {type: String,required: true},
     duration: {type: Number,required: true,min: 1}}
@@ -12,6 +13,7 @@ const EnduranceSchema = new Schema({
 
 
 const EnWorkoutSchema = new Schema({
+    email: {type:String, required: true},
 
     difficulty: {type: String, required: true},
 

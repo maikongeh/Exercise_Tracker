@@ -43,7 +43,7 @@ export class AgWorkout extends Component {
       axios.get('http://localhost:8000/AgWorkout')
       .then(res => {
         this.setState({
-          AllworkoutArr: res.data,
+          AllworkoutArr: res.data.filter(workout=> workout.email === this.props.email),
           BworkoutArr: res.data.filter( workout => workout.difficulty === 'Beginner'),
           IworkoutArr: res.data.filter( workout => workout.difficulty === 'Intermediate'),
           EworkoutArr: res.data.filter(workout => workout.difficulty === 'Elite'),
@@ -116,7 +116,8 @@ export class AgWorkout extends Component {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   role: state.auth.user === null ? "Athlete" : state.auth.user.role,
-  name: state.auth.user === null ? 'name' : state.auth.user.name
+  name: state.auth.user === null ? 'name' : state.auth.user.name,
+  email: state.auth.user === null ? 'email' : state.auth.user.email
 });
 
 export default connect(mapStateToProps, {})(AgWorkout);

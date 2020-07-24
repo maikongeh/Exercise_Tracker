@@ -78,6 +78,7 @@ export class AgEdit extends Component {
         e.preventDefault();
 
         const exercise = {
+            email: this.props.email,
             
             description: this.state.description,
             sets: this.state.sets,
@@ -176,6 +177,7 @@ export class AgEdit extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
   export default connect(mapStateToProps, {})(AgEdit);

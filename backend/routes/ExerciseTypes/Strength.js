@@ -8,12 +8,14 @@ router.route('/').get((req,res) => {
 });
 
 router.route('/add').post((req,res) => {
+    const email = req.body.email;
     const description = req.body.description;
     const weight = Number(req.body.weight);
     const sets = Number(req.body.sets);
     const reps = Number(req.body.reps);
 
     const newStrengthExercise = new StrengthExercise({
+        email,
         description,
         weight,
         sets,
@@ -42,6 +44,7 @@ router.route('/:id').delete((req,res) => {
 router.route('/update/:id').post((req,res) => {
     StrengthExercise.findById(req.params.id)
     .then(exercise => {
+        exercise.email = req.body.email;
         exercise.description = req.body.description;
         exercise.weight = Number(req.body.weight);
         exercise.sets = Number(req.body.sets);

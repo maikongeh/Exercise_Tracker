@@ -97,7 +97,7 @@ export class StrEdit extends Component {
         e.preventDefault();
 
         const exercise = {
-            
+            email: this.props.email,
             description: this.state.description,
             weight: this.state.weight,
             sets: this.state.sets,
@@ -212,6 +212,7 @@ export class StrEdit extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
   });
   
 export default connect(mapStateToProps, {})(StrEdit);

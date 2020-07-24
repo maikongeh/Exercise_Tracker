@@ -146,14 +146,14 @@ export class Navbar extends Component {
             <div>
                 <ul className="navbar-nav ml-auto">
                 <li className="navbar-item">
-                  <button>
+                  <button className = "float-right">
                     <Link to="/login">Login </Link>
                   </button>
                 </li>
                 <br />
   
                 <li className="navbar-item">
-                  <button>
+                  <button className = "float-right">
                     <Link to="/registration"> Register</Link>
                   </button>
                 </li>

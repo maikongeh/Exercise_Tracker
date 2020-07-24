@@ -56,7 +56,7 @@ export class ExList extends Component {
     axios.get('http://localhost:8000/Explosive/')
       .then(response => {
         this.setState({
-          exercises: response.data
+          exercises: response.data.filter(exercise => exercise.email === this.props.email)
           })
         }).catch(err => {
           console.log(err);
@@ -162,6 +162,7 @@ export class ExList extends Component {
     e.preventDefault();
 
     const ExWorkout = {
+        email: this.props.email,
         difficulty: this.state.difficulty,
         exercise1: this.state.exercise1,
         exercise2: this.state.exercise2,
@@ -283,6 +284,7 @@ export class ExList extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  email: state.auth.user === null ? 'email' : state.auth.user.email
 });
 
 export default connect(mapStateToProps, {})(ExList);

@@ -115,6 +115,7 @@ export class ExView extends Component {
 }
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    role: state.auth.user === null ? "Athlete" : state.auth.user.role,
   });
   
 export default connect(mapStateToProps, {})(ExView);

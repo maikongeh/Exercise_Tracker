@@ -1,21 +1,60 @@
-import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import React, { Fragment, Component } from 'react'
+import { ListGroup} from 'reactstrap';
+import { Collapse } from 'antd';
+import {connect} from 'react-redux'
+const { Panel } = Collapse;
 
-const Explosive = (props) => {
-  return (
+export class Explosive extends Component {
+  render() {
 
+    const text = `
+    A dog is a type of domesticated animal.
+    Known for its loyalty and faithfulness,
+    it can be found as a welcome guest in many households across the world.
+  `;
+
+    return (
+      <div>
+          {this.props.isAuthenticated? (
+              <div>
+            <Fragment>
     <ListGroup>
-        <h2> List of Explosive Exercises</h2>
-        <br/>
-    
-      <ListGroupItem tag="a" href="#">Box jumps</ListGroupItem>
-      <ListGroupItem tag="a" href="#">Kettlebell swing</ListGroupItem>
-      <ListGroupItem tag="a" href="#">Morbi leo risus</ListGroupItem>
-      <ListGroupItem tag="a" href="#">Power clean</ListGroupItem>
-      <ListGroupItem tag="a" href="#">Tuck jump</ListGroupItem>
+      <h2> List of Explosive Exercises</h2>
     </ListGroup>
-  );
+      
+    <Collapse accordion>
+      
+    <Panel header="Box jumps" key="1">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Kettlebell swing" key="2">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Power clean" key="3">
+      <p>{text}</p>
+    </Panel>
+    <Panel header="Tuck jump" key="4">
+      <p>{text}</p>
+    </Panel>    
+  </Collapse>
+  </Fragment>
+
+            </div>
+          ) : (
+              <div>
+                  </div>
+          )}
+        
+      </div>
+    )
+  }
 }
 
-
-export default Explosive
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user === null ? 'email' : state.auth.user.email
+    
+  });
+  
+  export default connect(mapStateToProps, {})(Explosive);
+  
