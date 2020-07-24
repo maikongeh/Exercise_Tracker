@@ -5,18 +5,16 @@ import {Link} from 'react-router-dom';
 import { message } from "antd";
 
 const Exercise = props => (
-    <tr>
-      
+    <tr>     
       <td>{props.exercise.description}</td>
-      <td>{props.exercise.sets}</td>
-      <td>{props.exercise.duration}</td>
-      
+      <td>{props.exercise.sets}</td>   
+      <td>{props.exercise.reps}</td>   
     </tr>
   
   )
   
 
-export class AgView extends Component {
+export class ExView extends Component {
 
     constructor(props) {
         super(props);
@@ -37,7 +35,7 @@ export class AgView extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8000/AgWorkout/' + this.props.match.params.id)
+        axios.get('http://localhost:8000/ExWorkout/' + this.props.match.params.id)
         .then(response => {
             this.setState({
                 difficulty: response.data.difficulty,
@@ -57,29 +55,21 @@ export class AgView extends Component {
     exerciseList() {
         return this.state.exercises.map(currentexercise => {
           return<Exercise exercise = {currentexercise} 
-                    // deleteExercise = {this.deleteExercise} 
-                    // addExercise = {this.addExercise}
-                    // disabledCheckBox = {this.disabledCheckBox}
                     key = {currentexercise._id}/>
         })
       }
 
     
       deleteExercise(id) {
-        axios.delete('http://localhost:8000/AgWorkout/' + id)
+        axios.delete('http://localhost:8000/ExWorkout/' + id)
               .then(res => console.log(res.data))
               .then(() => {
-                this.props.history.push('/AgWorkout')
+                this.props.history.push('/ExWorkout')
               }).catch((error) => {
                 console.log(error)
               })
 
               message.success("Workout Deleted!", 1);
-
-              
-            // this.setState({
-            //   exercises: this.state.exercises.filter(exercises => exercises._id !== id)
-            // })
       }
   
 
@@ -90,7 +80,7 @@ export class AgView extends Component {
 
           {this.props.isAuthenticated ? (
               <div>
-                  <Link to="/AgWorkout" style = {{marginLeft: '1rem'}}> Back</Link>
+                  <Link to="/ExWorkout" style = {{marginLeft: '1rem'}}> Back</Link>
 
                   <h1> {this.state.difficulty}</h1>
                 <table className = "table">
@@ -99,15 +89,12 @@ export class AgView extends Component {
               
               <th>Description</th>
               <th>Sets</th>
-              <th>Duration</th>
+              <th>Reps</th>
             
             </tr>
           </thead>
           <tbody>
-            {/* calls the exerciseList method above */}
-            {/* {/* {this.exerciseList()} */}
-            {this.exerciseList()}
-            
+            {this.exerciseList()}          
           </tbody>
         </table>
         {this.props.role === "Coach" && (
@@ -130,5 +117,5 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
   });
   
-export default connect(mapStateToProps, {})(AgView);
+export default connect(mapStateToProps, {})(ExView);
   

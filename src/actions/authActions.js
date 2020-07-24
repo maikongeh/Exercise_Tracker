@@ -100,7 +100,7 @@ export const login = ({ email, password }) => async (dispatch) => {
       payload: res.data,
     });
 
-    message.success("Successful Login!", 3);
+    message.success("Welcome back", 3);
   } catch (err) {
     console.log(err);
 
@@ -108,10 +108,11 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: LOGIN_FAIL,
     });
 
-    message.error("Unsuccessful Login!", 3);
+    message.error("Login unsuccessful!", 3);
   }
 };
 
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT_SUCCESS });
+    message.success("See you again")
 };

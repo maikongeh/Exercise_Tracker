@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   UncontrolledDropdown,
@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
   NavItem,
+  Button,
 } from "reactstrap";
 import Register from "./registration";
 import RegisterModal from "./auth/RegisterModal";
@@ -17,156 +18,149 @@ export class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/HomePage" className=" navbar-brand">
+        <Link to="/homepage" className=" navbar-brand">
           {" "}
           ExerciseTracker
         </Link>
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="navbar-item">
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  My Workouts
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <Link to="/AgWorkout">Agility</Link>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/EnWorkout">Endurance</Link>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/ExWorkout">Explosive</Link>
-                  </DropdownItem>
-                  <DropdownItem>
-                    <Link to="/StrWorkout">Strength</Link>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </li>
-            {this.props.role === "Coach" && (
-              <li className="navbar-item">
+        {this.props.isAuthenticated ? (
+            <div className="collapse navbar-collapse">
+            <ul className="navbar-nav mr-auto">
+                {this.props.role === 'Coach' ? (
+                    <li className="navbar-item">
+                    <UncontrolledDropdown nav inNavbar>
+                      <DropdownToggle nav caret>
+                        My Workouts
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        <DropdownItem>
+                          <Link to="/AgWorkout">Agility</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/EnWorkout">Endurance</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/ExWorkout">Explosive</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/StrWorkout">Strength</Link>
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </li>
+
+                ) : (
+                    <li className="navbar-item">
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    Create Workout
+                    All Workouts
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      <Link to="/AgList">Agility</Link>
+                      <Link to="/AgWorkout">Agility</Link>
                     </DropdownItem>
-                    <DropdownItem divider />
                     <DropdownItem>
-                      <Link to="/EnList">Endurance</Link>
+                      <Link to="/EnWorkout">Endurance</Link>
                     </DropdownItem>
-                    <DropdownItem divider />
                     <DropdownItem>
-                      <Link to="/ExList">Explosive</Link>
+                      <Link to="/ExWorkout">Explosive</Link>
                     </DropdownItem>
-                    <DropdownItem divider />
                     <DropdownItem>
-                      <Link to="/StrList">Strength</Link>
+                      <Link to="/StrWorkout">Strength</Link>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </li>
-            )}
-            {/* <li className = "navbar-item">
-                    <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret>Create Exercise</DropdownToggle>
-                            <DropdownMenu right>
-                                <DropdownItem>
-                                    <Link to = '/AgCreate'>Agility</Link>
-                                </DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>
-                                    <Link to = '/EnCreate'>Endurance</Link>
-                                </DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>
-                                    <Link to = '/ExCreate'>Explosive</Link>
-                                </DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>
-                                    <Link to = '/StrCreate'>Strength</Link>
-                                </DropdownItem>
-                                
-                            </DropdownMenu>
-                    </UncontrolledDropdown>
-                </li> */}
 
-            <li className="navbar-item">
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  View Exercises
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <Link to="/AllAg">Agility</Link>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <Link to="/AllEn">Endurance</Link>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <Link to="/AllEx">Explosive</Link>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <Link to="/AllStr">Strength</Link>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </li>
-          </ul>
-
-          {/* <li className = "navbar-item">
-
-                <Link to = '/loginpage' className = "nav-link">Logout</Link>
-
-
-                
-                </li> */}
-
-          {this.props.isAuthenticated ? (
-            <li className="navbar-item">
-              <ul className="navbar-nav ml-auto">
-                <NavItem onClick={() => this.props.logout()}>Logout</NavItem>
-              </ul>
-            </li>
-          ) : (
-            <ul className="navbar-nav ml-auto">
+                )}
+              {this.props.role === "Coach" && (
+                <li className="navbar-item">
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      Create Workout
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem>
+                        <Link to="/AgList">Agility</Link>
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem>
+                        <Link to="/EnList">Endurance</Link>
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem>
+                        <Link to="/ExList">Explosive</Link>
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem>
+                        <Link to="/StrList">Strength</Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </li>
+              )}
+  
               <li className="navbar-item">
-                <NavItem>
-                  <Link to="/login">Login | </Link>
-                </NavItem>
-              </li>
-              <br />
-
-              <li className="navbar-item">
-                <NavItem>
-                  <Link to="/registration"> Register</Link>
-                </NavItem>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    View Exercises
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>
+                      <Link to="/AllAg">Agility</Link>
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>
+                      <Link to="/AllEn">Endurance</Link>
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>
+                      <Link to="/AllEx">Explosive</Link>
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>
+                      <Link to="/AllStr">Strength</Link>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </li>
             </ul>
-          )}
-
-          {/* <nav className = "navbar-nav ml-auto">
-                    
-                    <NavItem> 
-                        <Link to = '/login'>login</Link>
-                    
+  
+            
+  
+        
+                <Fragment className = "navbar-item">
+                    <NavItem>
+                    <span className = "navbar-text mr-3">
+                        <strong>Welcome {this.props.name}</strong>
+                    </span>
                     </NavItem>
-    
-                    </nav>
-                <nav className = "navbar-nav ml-auto">
-                    
-                <NavItem> 
-                    <Link to = '/registration'>Register</Link>
-                </NavItem>
+            
+              <NavItem>
+                  <button className="float-right" onClick={() => this.props.logout()}>Logout</button>              
+              </NavItem>
+              </Fragment>
+            
+          </div>
 
-                </nav> */}
-        </div>
+        ) : (
+            <div>
+                <ul className="navbar-nav ml-auto">
+                <li className="navbar-item">
+                  <button>
+                    <Link to="/login">Login </Link>
+                  </button>
+                </li>
+                <br />
+  
+                <li className="navbar-item">
+                  <button>
+                    <Link to="/registration"> Register</Link>
+                  </button>
+                </li>
+              </ul>
+            </div>
+        )}
+        
       </nav>
     );
   }
@@ -175,6 +169,7 @@ export class Navbar extends Component {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   role: state.auth.user === null ? "Athlete" : state.auth.user.role,
+  name: state.auth.user === null ? 'name' : state.auth.user.name
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

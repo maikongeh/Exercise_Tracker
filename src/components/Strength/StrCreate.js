@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { message } from "antd";
 
 export class StrCreate extends Component {
     constructor(props) {
@@ -77,33 +79,42 @@ export class StrCreate extends Component {
     }
 
 
-
     onSubmit(e) {
         //stops it from doing the normal submit functionality
         e.preventDefault();
 
         const StrExercise = {
-            description: this.state.description,
-            weight: this.state.weight,
+            description: this.state.description,  
+            weight: this.state.weight,        
             sets: this.state.sets,
-            reps:this.state.reps,
+            reps: this.state.reps
         }
+        if(this.state.sets === 0 || this.state.reps === 0){
+            message.error('Invalid fields!')
+        } else {
+            console.log(StrExercise);
 
-        console.log(StrExercise);
-
-        axios.post('http://localhost:8000/Strength/add', StrExercise)
-        .then(res => console.log(res.data));
-
-        window.location = "/StrList";
-
+            axios.post('http://localhost:8000/Strength/add', StrExercise)
+            .then(res => console.log(res.data))
+            .then(() => {
+                this.props.history.push('/StrList')
+              }).catch((error) => {
+                console.log(error)
+              })
     
+              message.success("Exercise added!", 1);
+
+        }
+        
     }
     
 
   render() {
     return (
       <div>
-          <h3>Create New Strength Exercise</h3>
+          {this.props.isAuthenticated ? (
+              <div>
+                  <h3>Create New Strength Exercise</h3>
           <form onSubmit = {this.onSubmit}>
 
               <div className = "form-group">
@@ -177,9 +188,20 @@ export class StrCreate extends Component {
                        />
                 </div>
             </form>
+
+                </div>
+          ) : (
+              <div>
+                  </div>
+          )}
+          
        </div>
     )
   }
 }
 
-export default StrCreate
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+export default connect(mapStateToProps, {})(StrCreate);

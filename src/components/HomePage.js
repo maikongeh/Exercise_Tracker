@@ -1,23 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 export class HomePage extends Component {
   render() {
     return (
       <div>
-        <h1>This is the damn Home Page</h1>
-        <br/>
-        <h1>JK Welcome to Sportify</h1>
 
-        <h2>Exercises are differentiated into 4 categories</h2>
-        <ol>
-            <li>Agility</li>
-            <li>Endurance</li>
-            <li>Explosive</li>
-            <li>Strength</li>
-        </ol>
+    
 
-        <p>Exercise List showcases a video demonstration of all of the exercises from these 4 subtypes</p>
-        <p>Exercises can be created and logged in the 2 options</p>
+        {this.props.isAuthenticated ? (
+            <div>
+              <h1 style={{ textDecoration: 'underline' }}>Welcome to Sportify</h1>
+              <br/>
+              <h3>Role : {this.props.role}</h3>
+              <br/>
+              <h3>Name : {this.props.name}</h3>
+            </div>
+
+            
+          ) : (
+            <div>
+            </div>
+          )
+            
+          }
 
     
       </div>
@@ -25,4 +31,10 @@ export class HomePage extends Component {
   }
 }
 
-export default HomePage
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  role: state.auth.user === null ? "Athlete" : state.auth.user.role,
+  name: state.auth.user === null ? 'name' : state.auth.user.name
+});
+
+export default connect(mapStateToProps, {})(HomePage);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import axios from 'axios'; 
+import {connect} from 'react-redux';
+import {message} from 'antd';
 
 export class EnEdit extends Component {
     constructor(props) {
@@ -68,21 +70,32 @@ export class EnEdit extends Component {
         const exercise = {
             
             description: this.state.description,
-            duration: this.state.duration,
+            duration: this.state.duration
         }
-
-        console.log(exercise);
+        if(this.state.duration === 0){
+            message.error('Invalid fields');
+        } else {
+            console.log(exercise);
 
         axios.post('http://localhost:8000/Endurance/update/'+ this.props.match.params.id, exercise)
-        .then(res => console.log(res.data));
+        .then(res => console.log(res.data))
+        .then(() => {
+            this.props.history.push('/EnList')
+          }).catch((error) => {
+            console.log(error)
+          })
 
-        window.location = '/EnList';
+          message.success("Exercise updated!", 1);
+        }
+
     }
 
   render() {
     return (
       <div>
-          <h3>Edit Endurance Exercise Log</h3>
+          {this.props.isAuthenticated ? (
+            <div>
+                <h3>Edit Endurance Exercise Log</h3>
           <form onSubmit = {this.onSubmit}>
               <div className = "form-group">
                   <label>Description: </label>
@@ -125,9 +138,21 @@ export class EnEdit extends Component {
                        />
                 </div>
             </form>
+
+            </div>
+            
+          ) : (
+              <div>
+                </div>
+          )}
+          
        </div>
     )
   }
 }
 
-export default EnEdit
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, {})(EnEdit);

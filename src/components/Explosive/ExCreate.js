@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { message } from "antd";
 
 export class ExCreate extends Component {
     constructor(props) {
@@ -62,24 +64,36 @@ export class ExCreate extends Component {
         e.preventDefault();
 
         const ExExercise = {
-            description: this.state.description,
+            description: this.state.description,          
             sets: this.state.sets,
             reps: this.state.reps
         }
+        if(this.state.sets === 0 || this.state.duration === 0){
+            message.error('Invalid fields!')
+        } else {
+            console.log(ExExercise);
 
-        console.log(ExExercise);
+            axios.post('http://localhost:8000/Explosive/add', ExExercise)
+            .then(res => console.log(res.data))
+            .then(() => {
+                this.props.history.push('/ExList')
+              }).catch((error) => {
+                console.log(error)
+              })
+    
+              message.success("Exercise added!", 1);
 
-        axios.post('http://localhost:8000/Explosive/add', ExExercise)
-        .then(res => console.log(res.data));
-
-        window.location = '/ExList';
+        }
+        
     }
     
 
   render() {
     return (
       <div>
-          <h3>Create New Explosive Exercise</h3>
+          {this.props.isAuthenticated ? (
+              <div>
+                  <h3>Create New Explosive Exercise</h3>
           <form onSubmit = {this.onSubmit}>
 
               <div className = "form-group">
@@ -131,9 +145,20 @@ export class ExCreate extends Component {
                        />
                 </div>
             </form>
+            </div>
+
+          ) : (
+              <div>
+                  </div>
+          )}
+          
        </div>
     )
   }
 }
 
-export default ExCreate
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+export default connect(mapStateToProps, {})(ExCreate);

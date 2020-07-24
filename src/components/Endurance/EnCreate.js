@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { message } from "antd";
 
 export class EnCreate extends Component {
     constructor(props) {
@@ -54,67 +56,90 @@ export class EnCreate extends Component {
         e.preventDefault();
 
         const EnExercise = {
-            description: this.state.description,
-            duration: this.state.duration
+            description: this.state.description,          
+            duration: this.state.duration,
         }
+        if(this.state.duration === 0){
+            message.error('Invalid fields!')
+        } else {
+            console.log(EnExercise);
 
-        console.log(EnExercise);
+            axios.post('http://localhost:8000/Endurance/add', EnExercise)
+            .then(res => console.log(res.data))
+            .then(() => {
+                this.props.history.push('/EnList')
+              }).catch((error) => {
+                console.log(error)
+              })
+    
+              message.success("Exercise added!", 1);
 
-        axios.post('http://localhost:8000/Endurance/add', EnExercise)
-        .then(res => console.log(res.data));
-
-        window.location = '/EnList';
+        }
+        
     }
     
 
   render() {
     return (
       <div>
-          <h3>Create New Endurance Exercise</h3>
-          <form onSubmit = {this.onSubmit}>
-
-              <div className = "form-group">
-                  <label>Description: </label>
-                  <select ref = "userInput"
-                      required
-                      className = "form-control"
-                      value = {this.state.description}
-                      onChange = {this.onChangeDescription}>
-                          
-                          {
-                              this.state.descriptionsArr.map(function(description) {
-                                  return <option
-                                    key = {description}x
-                                    value = {description}> {description} 
-                                    </option>;
-                              })
-                          }
-                  </select>
-              </div>
-
-              <div className = "form-group">
-                  <label>Duration (in minutes) : </label>
-                  <input 
-                    type = "text"
-                    required
-                    className = "form-control"
-                    value = {this.state.duration}
-                    onChange = {this.onChangeDuration}
-                    />
-              </div>
-
-            
-                <div className = "form-group">
+          {this.props.isAuthenticated ? (
+              <div>
+              <h3>Create New Endurance Exercise</h3>
+              <form onSubmit = {this.onSubmit}>
+    
+                  <div className = "form-group">
+                      <label>Description: </label>
+                      <select ref = "userInput"
+                          required
+                          className = "form-control"
+                          value = {this.state.description}
+                          onChange = {this.onChangeDescription}>
+                              
+                              {
+                                  this.state.descriptionsArr.map(function(description) {
+                                      return <option
+                                        key = {description}x
+                                        value = {description}> {description} 
+                                        </option>;
+                                  })
+                              }
+                      </select>
+                  </div>
+    
+                  <div className = "form-group">
+                      <label>Duration (in minutes) : </label>
                       <input 
-                       type = "submit"
-                       value = "Create Exercise Log"
-                       className = "btn btn-primary"
-                       />
+                        type = "text"
+                        required
+                        className = "form-control"
+                        value = {this.state.duration}
+                        onChange = {this.onChangeDuration}
+                        />
+                  </div>
+    
+                
+                    <div className = "form-group">
+                          <input 
+                           type = "submit"
+                           value = "Create Exercise Log"
+                           className = "btn btn-primary"
+                           />
+                    </div>
+                </form>
                 </div>
-            </form>
+
+          ) : (
+              <div>
+            </div>
+          )}
+          
        </div>
     )
   }
 }
 
-export default EnCreate
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, {})(EnCreate);

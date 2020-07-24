@@ -8,6 +8,8 @@ router.route('/').get((req,res) => {
     .catch(err => res.status(400).json('Error:' + err));
 });
 
+
+
 //To add auth just put auth before (req,res) so post(auth, (req,res) => )
 router.route('/add').post((req,res) => {
     const description = req.body.description;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 
 
@@ -8,14 +10,7 @@ const Workout = props => (
    
     <td>{props.workout.difficulty}</td>
     <td >
-      {/* <Link to = {"/AgWorkout/" + props.workout._id}> View </Link> | 
-      //not sure how to pass as props
-       */}
-      <a href = "#" onClick = {()=> console.log((props.workout._id))}>View | </a> 
-
-      
-      {/* View  |  */}
-       Delete
+    <Link to = {"/EnView/" + props.workout._id}> View </Link>
     </td>
   </tr>
 
@@ -71,23 +66,13 @@ export class EnWorkout extends Component {
     })
   }
 
-  // workoutList = () => (
-  //   <ul>
-  //     {this.AllWorkoutArr.map(item => (
-  //       <li key={item.id}>
-  //         <div>{item.id}</div>
-  //         <div>{item.difficulty}</div>
-  //       </li>
-  //     ))}
-  //   </ul>
-  // );
-
-
 
   render() {
     return (
       <div>
-        <table className = "table">
+          {this.props.isAuthenticated ? (
+            <div>
+                <table className = "table">
           <thead className = "thead-light">
             <th>Difficulty</th>
             <th>Actions</th>
@@ -96,9 +81,21 @@ export class EnWorkout extends Component {
             {this.workoutList()}
           </tbody>
         </table>
+            </div>
+
+          ) : (
+              <div>
+                </div>
+          )}
+        
       </div> 
     )
   }
 }
 
-export default EnWorkout
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, {})(EnWorkout);
+  

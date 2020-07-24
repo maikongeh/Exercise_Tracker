@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {message} from 'antd';
 
-export class ExEdit extends Component {
+export class StrEdit extends Component {
     constructor(props) {
         super(props);
 
@@ -101,19 +103,30 @@ export class ExEdit extends Component {
             sets: this.state.sets,
             reps: this.state.reps
         }
-
-        console.log(exercise);
+        if(this.state.sets === 0 || this.state.reps === 0){
+            message.error('Invalid fields');
+        } else {
+            console.log(exercise);
 
         axios.post('http://localhost:8000/Strength/update/'+ this.props.match.params.id, exercise)
-        .then(res => console.log(res.data));
+        .then(res => console.log(res.data))
+        .then(() => {
+            this.props.history.push('/StrList')
+          }).catch((error) => {
+            console.log(error)
+          })
 
-        window.location = '/StrList';
+          message.success("Exercise updated!", 1);
+        }
+
     }
 
   render() {
     return (
       <div>
-          <h3>Edit Strength Exercise Log</h3>
+          {this.props.isAuthenticated ? (
+              <div>
+                  <h3>Edit Strength Exercise Log</h3>
           <form onSubmit = {this.onSubmit}>
               <div className = "form-group">
                   <label>Description: </label>
@@ -186,9 +199,19 @@ export class ExEdit extends Component {
                        />
                 </div>
             </form>
+                </div>
+          ): (
+              <div>
+                </div>
+          )}
+          
        </div>
     )
   }
 }
 
-export default ExEdit
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+export default connect(mapStateToProps, {})(StrEdit);

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import { connect } from "react-redux";
+import { message } from "antd";
 
 export class AgEdit extends Component {
     constructor(props) {
@@ -81,19 +83,33 @@ export class AgEdit extends Component {
             sets: this.state.sets,
             duration: this.state.duration
         }
-
-        console.log(exercise);
+        if(this.state.sets === 0 || this.state.duration === 0){
+            message.error('Invalid fields');
+        } else {
+            console.log(exercise);
 
         axios.post('http://localhost:8000/Agility/update/'+ this.props.match.params.id, exercise)
-        .then(res => console.log(res.data));
+        .then(res => console.log(res.data))
+        .then(() => {
+            this.props.history.push('/AgList')
+          }).catch((error) => {
+            console.log(error)
+          })
 
-        window.location = '/AgList';
-    }
+          message.success("Exercise updated!", 1);
+        }
+
+        }
+
+        
+
 
   render() {
     return (
       <div>
-          <h3>Edit Agility Exercise Log</h3>
+          {this.props.isAuthenticated ? (
+            <div>
+                <h3>Edit Agility Exercise Log</h3>
           <form onSubmit = {this.onSubmit}>
               <div className = "form-group">
                   <label>Description: </label>
@@ -144,9 +160,22 @@ export class AgEdit extends Component {
                        />
                 </div>
             </form>
+            </div>
+
+          ) : (
+            <div>
+            </div>
+          )
+          
+        }
+          
        </div>
     )
   }
 }
 
-export default AgEdit
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, {})(AgEdit);

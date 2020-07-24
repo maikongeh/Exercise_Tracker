@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Link } from 'react-router-dom';
 import axios from 'axios';
 import {Input} from 'reactstrap';
+import {connect} from 'react-redux';
+import { message } from "antd";
 
 // Exercise component is acts as a functional component so lazy to create a separate component
 //functional components have no state or lifecycle methods. so no state no render
@@ -168,13 +170,23 @@ export class ExList extends Component {
     }
 
     console.log(ExWorkout);
+    if(this.state.exercise1._id ==='nullID'|| this.state.exercise2._id === 'nullID'||
+    this.state.exercise3._id === 'nullID'||this.state.exercise4._id === 'nullID'){
+      message.error("Please select 4 exercises!" , 1)
+    } else {
+      console.log(ExWorkout);
+    
+      axios.post('http://localhost:8000/ExWorkout/add', ExWorkout)
+    .then(res => console.log(res.data))
+    .then(() => {
+      this.props.history.push('/ExWorkout');
+      message.success("Workout Added!", 1);
+    }).catch((error) => {
+      console.log(error)
+    })
+    }
 
-    axios.post('http://localhost:8000/ExWorkout/add', ExWorkout)
-    .then(res => console.log(res.data));
-
-
-    // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-    window.location = '/ExList';
+ 
   }
 
   undo() {
@@ -184,7 +196,9 @@ export class ExList extends Component {
   render() {
     return (
       <div>
-        <h1>Create Explosive Workout</h1>
+        {this.props.isAuthenticated ? (
+          <div>
+            <h1>Create Explosive Workout</h1>
         <br/>
 
         <div className = "form-group">
@@ -255,9 +269,20 @@ export class ExList extends Component {
                        />
                 </div>
         </form>
+          </div>
+        ) : (
+          <div>
+            </div>
+        )}
+        
       </div>
     )
   }
 }
 
-export default ExList
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(ExList);

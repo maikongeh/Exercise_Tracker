@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { connect } from "react-redux";
+import { message } from "antd";
+
+
 
 export class AgCreate extends Component {
     constructor(props) {
@@ -67,19 +71,25 @@ export class AgCreate extends Component {
         const AgExercise = {
             description: this.state.description,
             sets: this.state.sets,
-            duration: this.state.duration,
-            date: this.state.date
+            duration: this.state.duration
+        
         }
+        if(this.state.sets === 0 || this.state.duration === 0){
+            message.error('Invalid fields!')
+        } else {
+            console.log(AgExercise);
 
-        console.log(AgExercise);
+            axios.post('http://localhost:8000/Agility/add', AgExercise)
+            .then(res => console.log(res.data))
+            .then(() => {
+                this.props.history.push('/AgList')
+              }).catch((error) => {
+                console.log(error)
+              })
+    
+              message.success("Exercise added!", 1);
 
-        axios.post('http://localhost:8000/Agility/add', AgExercise)
-        .then(res => console.log(res.data));
-
-        window.location = ('/AgList');
-
-
-        // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
+        }
         
     }
     
@@ -87,9 +97,10 @@ export class AgCreate extends Component {
   render() {
     return (
       <div>
-          
-          <h3>Create New Agility Exercise</h3>
-          <form onSubmit = {this.onSubmit}>
+          {this.props.isAuthenticated ? (
+              <div>
+              <h3>Create New Agility Exercise</h3>
+              <form onSubmit = {this.onSubmit}>
 
               <div className = "form-group">
                   <label>Description: </label>
@@ -144,9 +155,23 @@ export class AgCreate extends Component {
                        />
                 </div>
             </form>
+            </div>
+
+          ) : (
+              <div>
+                </div>
+          )
+          }
+          
+        
+          
        </div>
     )
   }
 }
 
-export default AgCreate
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, {})(AgCreate);

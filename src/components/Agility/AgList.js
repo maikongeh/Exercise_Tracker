@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Link } from 'react-router-dom';
 import axios from 'axios';
 import {Input} from 'reactstrap';
+import {connect} from 'react-redux';
+import { message } from "antd";
 
 // Exercise component is acts as a functional component so lazy to create a separate component
 //functional components have no state or lifecycle methods. so no state no render
@@ -176,23 +178,34 @@ undo() {
         exercise4: this.state.exercise4
     }
 
-   
-
-    console.log(AgWorkout);
-
-    axios.post('http://localhost:8000/AgWorkout/add', AgWorkout)
-    .then(res => console.log(res.data));
+    if(this.state.exercise1._id ==='nullID'|| this.state.exercise2._id === 'nullID'||
+    this.state.exercise3._id === 'nullID'||this.state.exercise4._id === 'nullID'){
+      message.error("Please select 4 exercises!" , 1)
+    } else {
+      console.log(AgWorkout);
+    
+      axios.post('http://localhost:8000/AgWorkout/add', AgWorkout)
+    .then(res => console.log(res.data))
+    .then(() => {
+      this.props.history.push('/AgWorkout');
+      message.success("Workout Added!", 1);
+    }).catch((error) => {
+      console.log(error)
+    })
+    }
+  }
 
 
     // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-    window.location = '/AgList';
-}
+    
 
 
   render() {
     return (
       <div>
-        <h1>Create Agility Workout</h1>
+        {this.props.isAuthenticated ? (
+          <div>
+            <h1>Create Agility Workout</h1>
         <br/>
 
         <div className = "form-group">
@@ -264,9 +277,20 @@ undo() {
                 </div>
         </form>
 
+          </div>
+
+        ) : (
+          <div>
+          </div>
+        )}
+        
       </div>
     )
   }
 }
 
-export default AgList
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(AgList);

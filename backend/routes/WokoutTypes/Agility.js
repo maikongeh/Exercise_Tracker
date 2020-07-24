@@ -1,14 +1,24 @@
 const router = require('express').Router();
 let AgilityWorkout = require('../../models/WorkoutSchema/AgWorkout.model');
 const mongoose = require('mongoose');
+const auth = require('../../middleware/auth')
 
-router.route('/').get((req,res) => {
+
+router.route('/').get( auth, (req,res) => {
     AgilityWorkout.find()
     .then(workouts => res.json(workouts))
     .catch(err => res.status(400).json('Error:' + err));
 });
 
-router.route('/add').post((req,res) => {
+router.route('/ath').get((req,res) => {
+    AgilityWorkout.find()
+    .then(workout=> res.json(workout))
+    .catch(err => res.status(400).json('Error:' + err ));
+})
+
+
+
+router.route('/add').post(auth,(req,res) => {
 
     const difficulty = req.body.difficulty;
     
@@ -33,7 +43,7 @@ router.route('/add').post((req,res) => {
 
 //get information of specific exercise by ID
 
-router.route('/:id').get((req,res) => {
+router.route('/:id').get(auth,(req,res) => {
     AgilityWorkout.findById(req.params.id)
     .then(workout => res.json(workout))
     .catch(err=> res.status(400).json('Error: ' + err));

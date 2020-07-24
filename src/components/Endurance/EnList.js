@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Link } from 'react-router-dom';
 import axios from 'axios';
 import {Input} from 'reactstrap';
+import {connect} from 'react-redux';
+import { message } from "antd";
 // Exercise component is acts as a functional component so lazy to create a separate component
 //functional components have no state or lifecycle methods. so no state no render
 
@@ -166,13 +168,23 @@ export class EnList extends Component {
 
     console.log(EnWorkout);
 
-    axios.post('http://localhost:8000/EnWorkout/add', EnWorkout)
-    .then(res => console.log(res.data));
-
-
-    // How to do the bottom thing Async so that it waits for post request to be complete before rerouting to the List
-    window.location = '/EnList';
+    if(this.state.exercise1._id ==='nullID'|| this.state.exercise2._id === 'nullID'||
+    this.state.exercise3._id === 'nullID'||this.state.exercise4._id === 'nullID'){
+      message.error("Please select 4 exercises!" , 1)
+    } else {
+      console.log(EnWorkout);
+    
+      axios.post('http://localhost:8000/EnWorkout/add', EnWorkout)
+    .then(res => console.log(res.data))
+    .then(() => {
+      this.props.history.push('/EnWorkout');
+      message.success("Workout Added!", 1);
+    }).catch((error) => {
+      console.log(error)
+    })
+    }
   }
+
   undo() {
   window.location = '/EnList';
   }
@@ -180,10 +192,10 @@ export class EnList extends Component {
   render() {
     return (
       <div>
-        <h1>Create Endurance Workout</h1>
+        {this.props.isAuthenticated ? (
+          <div>
+            <h1>Create Endurance Workout</h1>
         <br/>
-
-
         <div className = "form-group">
                   <label>Choose level of Difficulty</label>
                   <select ref = "userInput"
@@ -251,9 +263,23 @@ export class EnList extends Component {
                        />
                 </div>
         </form>
+
+          </div>
+        ) : (
+          <div>
+            </div>
+
+        )}
+        
       </div>
     )
   }
 }
 
-export default EnList
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, {})(EnList);
+
