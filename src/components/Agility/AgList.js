@@ -34,6 +34,7 @@ export class AgList extends Component {
     super(props);
 
     this.onChangeDiff = this.onChangeDiff.bind(this);
+    this.onChangeDes = this.onChangeDes.bind(this);
 
     this.deleteExercise = this.deleteExercise.bind(this);
     this.disabledCheckBox = this.disabledCheckBox.bind(this);
@@ -43,6 +44,7 @@ export class AgList extends Component {
   
 
     this.state = {
+      description: '',
       difficulty: '',
       difficultyArr: [],
       CheckedNumber : 0,
@@ -60,6 +62,12 @@ export class AgList extends Component {
     if(this.state.CheckedNumber> 3) {
       return true
   } else return false
+}
+
+onChangeDes(e) {
+  this.setState({
+    description: e.target.value
+  })
 }
 
 onChangeDiff(e) {
@@ -171,6 +179,7 @@ undo() {
     e.preventDefault();
 
     const AgWorkout = {
+        description : this.state.description,
         email:this.props.email,
         difficulty: this.state.difficulty,
         exercise1: this.state.exercise1,
@@ -241,6 +250,21 @@ undo() {
                        />
                 </div>
         </form>
+
+        <div className = "form-group">
+                  <label>Name of Workout: </label>
+                  <input 
+                    type = "text"
+                    required
+                    className = "form-control"
+                    value = {this.state.description}
+                    onChange = {this.onChangeDes}
+                    />
+              </div>
+
+       
+
+
         
         <table className = "table">
           <thead className = "thead-light">

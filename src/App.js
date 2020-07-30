@@ -51,7 +51,7 @@ export class App extends Component {
             <Navbar />
 
             <br />
-            {/* <Route path = "/" component = {registration}/> */}
+            {/* <Route path = "/" component = {HomePage}/> */}
 
             <Route path="/AgCreate" component={AgCreate} />
             <Route path="/AgEdit/:id" component={AgEdit} />

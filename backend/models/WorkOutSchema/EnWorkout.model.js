@@ -13,10 +13,10 @@ const EnduranceSchema = new Schema({
 
 
 const EnWorkoutSchema = new Schema({
+
+    description: {type: String, requierd: true},
     email: {type:String, required: true},
-
     difficulty: {type: String, required: true},
-
     exercise1: {type: EnduranceSchema, required: true},
     exercise2: {type: EnduranceSchema, required: true},
     exercise3: {type: EnduranceSchema, required: true},

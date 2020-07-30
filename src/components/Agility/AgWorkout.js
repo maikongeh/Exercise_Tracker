@@ -3,11 +3,12 @@ import axios from 'axios';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 
-
-
 const Workout = props => (
   <tr>
-   
+    
+    
+      <td>{props.workout.description}</td>
+    
     <td>{props.workout.difficulty}</td>
     <td >
       <Link to = {"/AgView/" + props.workout._id}> View </Link>
@@ -15,7 +16,12 @@ const Workout = props => (
   </tr>
 
 )
+
+
+
 export class AgWorkout extends Component {
+
+ 
 
   
 
@@ -94,7 +100,8 @@ export class AgWorkout extends Component {
 
 
             <table className = "table">
-          <thead className = "thead-light">
+          <thead className = "thead-light">          
+            <th>Title</th>   
             <th>Difficulty</th>
             <th>Actions</th>
           </thead>

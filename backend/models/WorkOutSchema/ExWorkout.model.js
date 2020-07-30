@@ -14,8 +14,9 @@ const ExplosiveSchema = new Schema({
 
 
 const ExWorkoutSchema = new Schema({
-    email: {type:String, required: true},
 
+    description: {type: String, requierd: true},
+    email: {type:String, required: true},
     difficulty: {type: String, required: true},
     exercise1: {type: ExplosiveSchema, required: true},
     exercise2: {type: ExplosiveSchema, required: true},

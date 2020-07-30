@@ -15,8 +15,9 @@ const StrengthSchema = new Schema({
 
 
 const StrWorkoutSchema = new Schema({
+    
+    description: {type: String, requierd: true},
     email: {type:String, required: true},
-
     difficulty: {type: String, required: true},
     exercise1: {type: StrengthSchema, required: true},
     exercise2: {type: StrengthSchema, required: true},

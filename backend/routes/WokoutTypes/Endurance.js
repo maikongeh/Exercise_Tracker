@@ -17,6 +17,8 @@ router.route('/ath').get((req,res) => {
 
 
 router.route('/add').post(auth,(req,res) => {
+
+    const description = req.body.description;
     const email = req.body.email;
     const difficulty = req.body.difficulty;
     const exercise1 = req.body.exercise1;
@@ -25,6 +27,8 @@ router.route('/add').post(auth,(req,res) => {
     const exercise4 = req.body.exercise4;
 
     const newEnduranceWorkout = new EnduranceWorkout({
+
+        description,
         email,
         difficulty,
         exercise1,
@@ -56,6 +60,7 @@ router.route('/:id').delete((req,res) => {
 router.route('/update/:id').post((req,res) => {
     EnduranceWorkout.findById(req.params.id)
     .then(workout => {
+        workout.description = req.body.description;
         workout.email = req.body.email;
         workout.difficulty = req.body.difficulty;
         workout.exercise1 = req.body.exercise1;

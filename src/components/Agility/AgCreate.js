@@ -69,6 +69,7 @@ export class AgCreate extends Component {
         e.preventDefault();
 
         const AgExercise = {
+            description : this.props.description,
             email: this.props.email,
             description: this.state.description,
             sets: this.state.sets,
